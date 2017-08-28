@@ -2,10 +2,26 @@
  * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
  */
 
+resource "aws_ssm_parameter" "db_root_username" {
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Username"
+  type  = "SecureString"
+  value = "${lookup(var.optional_parameters, "username", "root_db")}"
+
+  key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
+}
+
+resource "aws_ssm_parameter" "db_root_password" {
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Password"
+  type  = "SecureString"
+  value = "${lookup(var.optional_parameters, "password", "root")}"
+
+  key_id = "${lookup(var.optional_parameters, "password_kms_key_id", "")}"
+}
+
 resource "aws_db_instance" "rds_db_instance" {
   // Note: username length must be between 2 and 16 character or AWS return an error
-  username = "${var.username}"
-  password = "${var.password}"
+  username = "${aws_ssm_parameter.db_root_username.value}"
+  password = "${aws_ssm_parameter.db_root_password.value}"
 
   identifier                          = "${lookup(var.optional_parameters, "identifier", "${var.custom_identifier}")}"
   allocated_storage                   = "${lookup(var.optional_parameters, "allocated_storage", 100)}"

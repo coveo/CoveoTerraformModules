@@ -3,15 +3,6 @@
  */
 
 // Required variables :
-
-variable "username" {
-  description = "Username for the master DB user"
-}
-
-variable "password" {
-  description = "Password for the master DB user"
-}
-
 variable "subnet_ids" {
   type        = "list"
   description = "A list of VPC subnets IDs"

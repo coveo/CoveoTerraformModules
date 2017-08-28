@@ -2,10 +2,26 @@
  * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
  */
 
+resource "aws_ssm_parameter" "db_root_master_username" {
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Username"
+  type  = "SecureString"
+  value = "${lookup(var.optional_parameters, "master_username", "root_db")}"
+
+  key_id = "${lookup(var.optional_parameters, "master_username_kms_key_id", "")}"
+}
+
+resource "aws_ssm_parameter" "db_root_master_password" {
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Password"
+  type  = "SecureString"
+  value = "${lookup(var.optional_parameters, "master_password", "root")}"
+
+  key_id = "${lookup(var.optional_parameters, "master_password_kms_key_id", "")}"
+}
+
 resource "aws_rds_cluster" "rds_db_cluster" {
   // Note: username length must be between 2 and 16 character or AWS return an error
-  master_username = "${var.master_username}"
-  master_password = "${var.master_password}"
+  master_username = "${aws_ssm_parameter.db_root_master_username.value}"
+  master_password = "${aws_ssm_parameter.db_root_master_password.value}"
 
   cluster_identifier                  = "${lookup(var.optional_parameters, "cluster_identifier", "${var.custom_identifier}-cluster")}"
   database_name                       = "${lookup(var.optional_parameters, "database_name", "")}"
