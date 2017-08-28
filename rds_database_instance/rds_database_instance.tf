@@ -7,7 +7,7 @@ resource "aws_db_instance" "rds_db_instance" {
   username = "${var.username}"
   password = "${var.password}"
 
-  identifier                          = "${var.identifier}"
+  identifier                          = "${lookup(var.optional_parameters, "identifier", "${var.custom_identifier}")}"
   allocated_storage                   = "${lookup(var.optional_parameters, "allocated_storage", 100)}"
   engine                              = "${lookup(var.optional_parameters, "engine", "aurora")}"
   engine_version                      = "${lookup(var.optional_parameters, "engine_version", "5.6.10a")}"
@@ -23,7 +23,7 @@ resource "aws_db_instance" "rds_db_instance" {
   port                                = "${lookup(var.optional_parameters, "port", 3306)}"
   publicly_accessible                 = "${lookup(var.optional_parameters, "publicly_accessible", false)}"
   vpc_security_group_ids              = ["${var.vpc_security_group_ids}"]
-  db_subnet_group_name                = "${lookup(var.optional_parameters, "db_subnet_group_name", "")}"
+  db_subnet_group_name                = "${aws_db_subnet_group.db_subnet_group.name}"
   parameter_group_name                = "${lookup(var.optional_parameters, "db_parameter_group_name", "")}"
   option_group_name                   = "${lookup(var.optional_parameters, "option_group_name", "")}"
   storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", false)}"
@@ -37,4 +37,12 @@ resource "aws_db_instance" "rds_db_instance" {
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
   tags                                = "${var.db_tags}"
+}
+
+resource "aws_db_subnet_group" "db_subnet_group" {
+  subnet_ids = "${var.subnet_ids}"
+
+  name        = "${lookup(var.optional_parameters, "db_subnet_group_name", "${var.custom_identifier}")}"
+  description = "${lookup(var.optional_parameters, "subnet_group_description", "")}"                     // TODO : Not sure if we should put the custom_identifier or roll with terraform default?
+  tags        = "${var.subnet_group_tags}"
 }

@@ -7,7 +7,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   master_username = "${var.master_username}"
   master_password = "${var.master_password}"
 
-  cluster_identifier                  = "${var.cluster_identifier}"
+  cluster_identifier                  = "${lookup(var.optional_parameters, "cluster_identifier", "${var.custom_identifier}-cluster")}"
   database_name                       = "${lookup(var.optional_parameters, "database_name", "")}"
   skip_final_snapshot                 = "${lookup(var.optional_parameters, "skip_final_snapshot", true)}"
   availability_zones                  = ["${var.availability_zones}"]
@@ -19,7 +19,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   snapshot_identifier                 = "${lookup(var.optional_parameters, "snapshot_identifier", "")}"
   storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", false)}"
   apply_immediately                   = "${lookup(var.optional_parameters, "apply_immediately", false)}"
-  db_subnet_group_name                = "${lookup(var.optional_parameters, "db_subnet_group_name", "")}"
+  db_subnet_group_name                = "${aws_db_subnet_group.db_subnet_group.name}"
   db_cluster_parameter_group_name     = "${lookup(var.optional_parameters, "db_cluster_parameter_group_name", "")}"
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
@@ -29,10 +29,10 @@ resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   cluster_identifier = "${aws_rds_cluster.rds_db_cluster.id}"
 
   count                      = "${lookup(var.optional_parameters, "count", 1)}"
-  identifier                 = "${lookup(var.optional_parameters, "cluster_instance_identifier", "${var.cluster_identifier}")}-${count.index}"
+  identifier                 = "${lookup(var.optional_parameters, "cluster_instance_identifier", "${var.custom_identifier}")}-${count.index}"
   instance_class             = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
   publicly_accessible        = "${lookup(var.optional_parameters, "publicly_accessible", false)}"
-  db_subnet_group_name       = "${lookup(var.optional_parameters, "db_subnet_group_name", "")}"
+  db_subnet_group_name       = "${aws_db_subnet_group.db_subnet_group.name}"
   db_parameter_group_name    = "${lookup(var.optional_parameters, "db_parameter_group_name", "")}"
   apply_immediately          = "${lookup(var.optional_parameters, "apply_immediately", false)}"
   monitoring_role_arn        = "${lookup(var.optional_parameters, "monitoring_role_arn", "")}"
@@ -41,4 +41,12 @@ resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   auto_minor_version_upgrade = "${lookup(var.optional_parameters, "auto_minor_version_upgrade", true)}"
 
   tags = "${var.db_tags}"
+}
+
+resource "aws_db_subnet_group" "db_subnet_group" {
+  subnet_ids = "${var.subnet_ids}"
+
+  name        = "${lookup(var.optional_parameters, "db_subnet_group_name", "${var.custom_identifier}")}"
+  description = "${lookup(var.optional_parameters, "subnet_group_description", "")}"                     // TODO : Not sure if we should put the custom_identifier or roll with terraform default?
+  tags        = "${var.subnet_group_tags}"
 }

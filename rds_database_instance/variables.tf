@@ -12,11 +12,17 @@ variable "password" {
   description = "Password for the master DB user"
 }
 
-variable "identifier" {
-  description = "The name of the RDS instance"
+variable "subnet_ids" {
+  type        = "list"
+  description = "A list of VPC subnets IDs"
 }
 
 // Optional variables :
+
+variable "custom_identifier" {
+  description = "An identifier to be used as a default value to identified your ressources."
+  default     = ""
+}
 
 variable "optional_parameters" {
   type        = "map"
@@ -40,4 +46,10 @@ variable "vpc_security_group_ids" {
   type        = "list"
   description = "List of VPC security groups to associate with the Cluster"
   default     = []
+}
+
+variable "subnet_group_tags" {
+  type        = "map"
+  description = "A mapping of tags to assign to the resource"
+  default     = {}
 }
