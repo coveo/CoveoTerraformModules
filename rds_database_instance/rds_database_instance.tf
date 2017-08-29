@@ -7,6 +7,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 
   name        = "${lookup(var.optional_parameters, "db_subnet_group_name", "${var.custom_identifier}")}"
   description = "${lookup(var.optional_parameters, "subnet_group_description", "${var.custom_identifier}")}"
+  tags        = "${var.subnet_group_tags}"
 }
 
 resource "aws_ssm_parameter" "db_root_username" {
