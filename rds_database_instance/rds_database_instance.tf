@@ -6,8 +6,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
   subnet_ids = "${var.subnet_ids}"
 
   name        = "${lookup(var.optional_parameters, "db_subnet_group_name", "${var.custom_identifier}")}"
-  description = "${lookup(var.optional_parameters, "subnet_group_description", "")}"                     // TODO : Not sure if we should put the custom_identifier or roll with terraform default?
-  tags        = "${var.subnet_group_tags}"
+  description = "${lookup(var.optional_parameters, "subnet_group_description", "${var.custom_identifier}")}"
 }
 
 resource "aws_ssm_parameter" "db_root_username" {
