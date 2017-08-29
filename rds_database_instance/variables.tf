@@ -4,7 +4,7 @@
 
 // Required variables :
 
-variable "master_password" {
+variable "password" {
   description = "Password for the master DB user"
 }
 
