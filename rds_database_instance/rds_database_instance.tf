@@ -2,6 +2,30 @@
  * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
  */
 
+resource "aws_db_subnet_group" "db_subnet_group" {
+  subnet_ids = "${var.subnet_ids}"
+
+  name        = "${lookup(var.optional_parameters, "db_subnet_group_name", "${var.custom_identifier}")}"
+  description = "${lookup(var.optional_parameters, "subnet_group_description", "")}"                     // TODO : Not sure if we should put the custom_identifier or roll with terraform default?
+  tags        = "${var.subnet_group_tags}"
+}
+
+resource "aws_ssm_parameter" "db_root_username" {
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Username"
+  type  = "SecureString"
+  value = "${lookup(var.optional_parameters, "username", "root_db")}"
+
+  key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
+}
+
+resource "aws_ssm_parameter" "db_root_password" {
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Password"
+  type  = "SecureString"
+  value = "${var.password}"
+
+  key_id = "${lookup(var.optional_parameters, "password_kms_key_id", "")}"
+}
+
 resource "aws_db_instance" "rds_db_instance" {
   // Note: username length must be between 2 and 16 character or AWS return an error
   username = "${aws_ssm_parameter.db_root_username.value}"
@@ -37,28 +61,4 @@ resource "aws_db_instance" "rds_db_instance" {
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
   tags                                = "${var.db_tags}"
-}
-
-resource "aws_db_subnet_group" "db_subnet_group" {
-  subnet_ids = "${var.subnet_ids}"
-
-  name        = "${lookup(var.optional_parameters, "db_subnet_group_name", "${var.custom_identifier}")}"
-  description = "${lookup(var.optional_parameters, "subnet_group_description", "")}"                     // TODO : Not sure if we should put the custom_identifier or roll with terraform default?
-  tags        = "${var.subnet_group_tags}"
-}
-
-resource "aws_ssm_parameter" "db_root_username" {
-  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Username"
-  type  = "SecureString"
-  value = "${lookup(var.optional_parameters, "username", "root_db")}"
-
-  key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
-}
-
-resource "aws_ssm_parameter" "db_root_password" {
-  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Password"
-  type  = "SecureString"
-  value = "${var.password}"
-
-  key_id = "${lookup(var.optional_parameters, "password_kms_key_id", "")}"
 }
