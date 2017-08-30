@@ -13,7 +13,7 @@ output "username" {
 
 output "password" {
   sensitive = true
-  value     = "${aws_rds_cluster.rds_db_cluster.master_username}"
+  value     = "${aws_rds_cluster.rds_db_cluster.master_password}"
 }
 
 output "port" {
