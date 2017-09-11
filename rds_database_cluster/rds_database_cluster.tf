@@ -35,7 +35,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   database_name                       = "${lookup(var.optional_parameters, "database_name", "")}"
   skip_final_snapshot                 = "${lookup(var.optional_parameters, "skip_final_snapshot", true)}"
   availability_zones                  = ["${var.availability_zones}"]
-  backup_retention_period             = "${lookup(var.optional_parameters, "backup_retention_period", 1)}"
+  backup_retention_period             = "${lookup(var.optional_parameters, "backup_retention_period", 14)}"
   preferred_backup_window             = "${lookup(var.optional_parameters, "preferred_backup_window", "")}"
   preferred_maintenance_window        = "${lookup(var.optional_parameters, "preferred_maintenance_window", "")}"
   port                                = "${lookup(var.optional_parameters, "port", 3306)}"

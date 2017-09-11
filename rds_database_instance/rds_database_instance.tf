@@ -41,7 +41,7 @@ resource "aws_db_instance" "rds_db_instance" {
   copy_tags_to_snapshot               = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", "false")}"
   name                                = "${lookup(var.optional_parameters, "database_name", "")}"
   availability_zone                   = "${lookup(var.optional_parameters, "availability_zone", "")}"
-  backup_retention_period             = "${lookup(var.optional_parameters, "backup_retention_period", 1)}"
+  backup_retention_period             = "${lookup(var.optional_parameters, "backup_retention_period", 14)}"
   backup_window                       = "${lookup(var.optional_parameters, "backup_window", "")}"
   maintenance_window                  = "${lookup(var.optional_parameters, "maintenance_window", "")}"
   port                                = "${lookup(var.optional_parameters, "port", 3306)}"
