@@ -12,10 +12,8 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 
 resource "aws_ssm_parameter" "db_root_master_username" {
   name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Username"
-  type  = "SecureString"
+  type  = "String"
   value = "${lookup(var.optional_parameters, "master_username", "root")}"
-
-  key_id = "${lookup(var.optional_parameters, "master_username_kms_key_id", "")}"
 }
 
 resource "aws_ssm_parameter" "db_root_master_password" {
