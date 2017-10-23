@@ -11,13 +11,13 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 }
 
 resource "aws_ssm_parameter" "db_root_master_username" {
-  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Username"
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_username_key", "Username")}"
   type  = "String"
   value = "${lookup(var.optional_parameters, "master_username", "root")}"
 }
 
 resource "aws_ssm_parameter" "db_root_master_password" {
-  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/Password"
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_password_key", "Password")}"
   type  = "SecureString"
   value = "${var.master_password}"
 
