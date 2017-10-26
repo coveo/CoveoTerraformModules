@@ -11,7 +11,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 }
 
 resource "aws_ssm_parameter" "db_root_username" {
-  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_username_key", "Username)}"
+  name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_username_key", "Username")}"
   type  = "String"
   value = "${lookup(var.optional_parameters, "username", "root_db")}"
 }
