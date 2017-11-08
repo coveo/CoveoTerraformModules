@@ -39,7 +39,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   port                                = "${lookup(var.optional_parameters, "port", 3306)}"
   vpc_security_group_ids              = ["${var.vpc_security_group_ids}"]
   snapshot_identifier                 = "${lookup(var.optional_parameters, "snapshot_identifier", "")}"
-  storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", false)}"
+  storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", true)}"
   apply_immediately                   = "${lookup(var.optional_parameters, "apply_immediately", false)}"
   db_subnet_group_name                = "${aws_db_subnet_group.db_subnet_group.name}"
   db_cluster_parameter_group_name     = "${lookup(var.optional_parameters, "db_cluster_parameter_group_name", "")}"
@@ -50,7 +50,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   cluster_identifier = "${aws_rds_cluster.rds_db_cluster.id}"
 
-  count                      = "${lookup(var.optional_parameters, "count", 1)}"
+  count                      = "${var.instances_count}"
   identifier                 = "${lookup(var.optional_parameters, "cluster_instance_identifier", "${var.custom_identifier}")}-${count.index}"
   instance_class             = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
   publicly_accessible        = "${lookup(var.optional_parameters, "publicly_accessible", false)}"

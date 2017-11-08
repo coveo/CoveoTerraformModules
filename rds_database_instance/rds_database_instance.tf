@@ -49,7 +49,7 @@ resource "aws_db_instance" "rds_db_instance" {
   db_subnet_group_name                = "${aws_db_subnet_group.db_subnet_group.name}"
   parameter_group_name                = "${lookup(var.optional_parameters, "db_parameter_group_name", "")}"
   option_group_name                   = "${lookup(var.optional_parameters, "option_group_name", "")}"
-  storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", false)}"
+  storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", true)}"
   apply_immediately                   = "${lookup(var.optional_parameters, "apply_immediately", false)}"
   snapshot_identifier                 = "${lookup(var.optional_parameters, "snapshot_identifier", "")}"
   license_model                       = "${lookup(var.optional_parameters, "license_model", "")}"

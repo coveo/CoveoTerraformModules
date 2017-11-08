@@ -15,6 +15,11 @@ variable "subnet_ids" {
 
 // Optional variables :
 
+variable "instances_count" {
+  description = "Number of instances"
+  default = 1
+}
+
 variable "custom_identifier" {
   description = "An identifier to be used as a default value to identified your ressources."
   default     = ""
