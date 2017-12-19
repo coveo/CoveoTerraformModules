@@ -45,6 +45,10 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   db_cluster_parameter_group_name     = "${lookup(var.optional_parameters, "db_cluster_parameter_group_name", "")}"
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
+
+  lifecycle {
+    ignore_changes = ["preferred_backup_window", "preferred_maintenance_window"]
+  }
 }
 
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
