@@ -22,8 +22,10 @@ resource "mysql_grant" "grants" {
 
 resource "aws_ssm_parameter" "username" {
   name  = "${var.parameter_store_path}/Username"
-  type  = "String"
+  type  = "${lookup(var.optional_parameters, "username_aws_ssm_parameter_type", "String")}"
   value = "${mysql_user.user.user}"
+
+  key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
 }
 
 resource "aws_ssm_parameter" "password" {
