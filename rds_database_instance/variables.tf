@@ -49,3 +49,9 @@ variable "subnet_group_tags" {
   description = "A mapping of tags to assign to the resource"
   default     = {}
 }
+
+variable "enabled_cloudwatch_logs_exports" {
+  type        = "list"
+  description = "A list of logs to export to cloudwatch. Possible values are audit, error, general, slowquery"
+  default     = []
+}

@@ -59,4 +59,5 @@ resource "aws_db_instance" "rds_db_instance" {
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
   tags                                = "${var.db_tags}"
+  enabled_cloudwatch_logs_exports     = ["${var.enabled_cloudwatch_logs_exports}"]
 }
