@@ -46,6 +46,8 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
   enabled_cloudwatch_logs_exports     = ["${var.enabled_cloudwatch_logs_exports}"]
+
+  tags = "${var.db_tags}"
 }
 
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
