@@ -46,6 +46,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   kms_key_id                          = "${lookup(var.optional_parameters, "kms_key_id", "")}"
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
   enabled_cloudwatch_logs_exports     = ["${var.enabled_cloudwatch_logs_exports}"]
+  deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
 
   tags = "${var.db_tags}"
 }
@@ -53,17 +54,18 @@ resource "aws_rds_cluster" "rds_db_cluster" {
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   cluster_identifier = "${aws_rds_cluster.rds_db_cluster.id}"
 
-  count                      = "${var.instances_count}"
-  identifier                 = "${lookup(var.optional_parameters, "cluster_instance_identifier", "${var.custom_identifier}")}-${count.index}"
-  instance_class             = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
-  publicly_accessible        = "${lookup(var.optional_parameters, "publicly_accessible", false)}"
-  db_subnet_group_name       = "${aws_db_subnet_group.db_subnet_group.name}"
-  db_parameter_group_name    = "${lookup(var.optional_parameters, "db_parameter_group_name", "")}"
-  apply_immediately          = "${lookup(var.optional_parameters, "apply_immediately", false)}"
-  monitoring_role_arn        = "${lookup(var.optional_parameters, "monitoring_role_arn", "")}"
-  monitoring_interval        = "${lookup(var.optional_parameters, "monitoring_interval", 0)}"
-  promotion_tier             = "${lookup(var.optional_parameters, "promotion_tier", 0)}"
-  auto_minor_version_upgrade = "${lookup(var.optional_parameters, "auto_minor_version_upgrade", true)}"
+  count                        = "${var.instances_count}"
+  identifier                   = "${lookup(var.optional_parameters, "cluster_instance_identifier", "${var.custom_identifier}")}-${count.index}"
+  instance_class               = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
+  publicly_accessible          = "${lookup(var.optional_parameters, "publicly_accessible", false)}"
+  db_subnet_group_name         = "${aws_db_subnet_group.db_subnet_group.name}"
+  db_parameter_group_name      = "${lookup(var.optional_parameters, "db_parameter_group_name", "")}"
+  apply_immediately            = "${lookup(var.optional_parameters, "apply_immediately", false)}"
+  monitoring_role_arn          = "${lookup(var.optional_parameters, "monitoring_role_arn", "")}"
+  monitoring_interval          = "${lookup(var.optional_parameters, "monitoring_interval", 0)}"
+  promotion_tier               = "${lookup(var.optional_parameters, "promotion_tier", 0)}"
+  auto_minor_version_upgrade   = "${lookup(var.optional_parameters, "auto_minor_version_upgrade", true)}"
+  performance_insights_enabled = "${lookup(var.optional_parameters, "performance_insights_enabled", false)}"
 
   tags = "${var.db_tags}"
 }

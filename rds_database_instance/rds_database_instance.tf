@@ -60,4 +60,5 @@ resource "aws_db_instance" "rds_db_instance" {
   iam_database_authentication_enabled = "${lookup(var.optional_parameters, "iam_database_authentication_enabled", false)}"
   tags                                = "${var.db_tags}"
   enabled_cloudwatch_logs_exports     = ["${var.enabled_cloudwatch_logs_exports}"]
+  deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
 }
