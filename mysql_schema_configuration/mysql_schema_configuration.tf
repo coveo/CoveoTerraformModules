@@ -8,16 +8,21 @@ resource "mysql_database" "schema" {
 }
 
 resource "mysql_user" "user" {
-  user               = "${var.username}"
+  user = "${var.username}"
+
   host               = "%"
   plaintext_password = "${var.password}"
+  tls_option         = "${lookup(var.optional_parameters, "tls_option", "")}"
 }
 
 resource "mysql_grant" "grants" {
+  database = "${mysql_database.schema.name}"
+
   user       = "${mysql_user.user.user}"
   host       = "${mysql_user.user.host}"
-  database   = "${mysql_database.schema.name}"
   privileges = "${var.user_privileges}"
+  table      = "${lookup(var.optional_parameters, "grants_table", "")}"
+  tls_option = "${lookup(var.optional_parameters, "tls_option", "")}"
 }
 
 resource "aws_ssm_parameter" "username" {
