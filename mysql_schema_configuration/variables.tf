@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 variable "parameter_store_path" {}
@@ -12,6 +12,10 @@ variable "password" {}
 
 variable "password_kms_key_id" {
   default = ""
+}
+
+variable "use_tls_option" {
+  default = 0
 }
 
 variable "optional_parameters" {
