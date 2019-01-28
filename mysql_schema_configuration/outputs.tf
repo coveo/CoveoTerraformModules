@@ -3,11 +3,11 @@
  */
 
 output "user" {
-  value = "${local.user_value}"
+  value = "${mysql_user.user.user}"
 }
 
 output "host" {
-  value = "${local.host}"
+  value = "${mysql_user.user.host}"
 }
 
 output "schema_name" {

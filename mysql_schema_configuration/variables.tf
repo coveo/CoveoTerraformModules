@@ -14,10 +14,6 @@ variable "password_kms_key_id" {
   default = ""
 }
 
-variable "use_tls_option" {
-  default = 0
-}
-
 variable "optional_parameters" {
   type        = "map"
   description = "Parameters with default values. Possible keys are username_aws_ssm_parameter_type and username_kms_key_id; if no key is present default value is used."
