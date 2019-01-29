@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 resource "mysql_database" "schema" {
@@ -12,7 +12,7 @@ resource "mysql_user" "user" {
 
   host               = "%"
   plaintext_password = "${var.password}"
-  tls_option         = "${lookup(var.optional_parameters, "tls_option", "")}"
+  tls_option         = "${lookup(var.optional_parameters, "tls_option", "NONE")}"
 }
 
 resource "mysql_grant" "grants" {
@@ -21,8 +21,8 @@ resource "mysql_grant" "grants" {
   user       = "${mysql_user.user.user}"
   host       = "${mysql_user.user.host}"
   privileges = "${var.user_privileges}"
-  table      = "${lookup(var.optional_parameters, "grants_table", "")}"
-  tls_option = "${lookup(var.optional_parameters, "tls_option", "")}"
+  table      = "${lookup(var.optional_parameters, "grants_table", "*")}"
+  tls_option = "${lookup(var.optional_parameters, "tls_option", "NONE")}"
 }
 
 resource "aws_ssm_parameter" "username" {
