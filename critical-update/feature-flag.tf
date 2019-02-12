@@ -1,5 +1,5 @@
 data "launchdarkly_project" "critical-updates" {
-  key = "critical-updates-${var.env}"
+  key = "${var.project-key}"
 }
 
 resource "launchdarkly_feature_flag" "remove-static-queries" {

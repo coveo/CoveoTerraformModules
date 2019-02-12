@@ -1,3 +1,7 @@
+variable "project-key" {
+  description = "The key for the project containing critical updates."
+}
+
 variable "key" {
   description = "The unique key for the critical update."
 }
