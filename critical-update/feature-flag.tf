@@ -2,7 +2,7 @@ data "launchdarkly_project" "critical-updates" {
   key = "${var.project-key}"
 }
 
-resource "launchdarkly_feature_flag" "remove-static-queries" {
+resource "launchdarkly_feature_flag" "feature-flag" {
   project_key = "${data.launchdarkly_project.critical-updates.key}"
   key = "${var.key}"
   name = "${var.name}"
