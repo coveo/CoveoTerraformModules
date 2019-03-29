@@ -39,6 +39,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   port                                = "${lookup(var.optional_parameters, "port", 3306)}"
   vpc_security_group_ids              = ["${var.vpc_security_group_ids}"]
   snapshot_identifier                 = "${lookup(var.optional_parameters, "snapshot_identifier", "")}"
+  final_snapshot_identifier           = "${lookup(var.optional_parameters, "final_snapshot_identifier", "")}"
   storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", true)}"
   apply_immediately                   = "${lookup(var.optional_parameters, "apply_immediately", false)}"
   db_subnet_group_name                = "${aws_db_subnet_group.db_subnet_group.name}"
