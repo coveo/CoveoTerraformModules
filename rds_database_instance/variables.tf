@@ -13,6 +13,11 @@ variable "subnet_ids" {
   description = "A list of VPC subnets IDs"
 }
 
+variable "final_snapshot_identifier" {
+  type = "string"
+  description = "Creates a snapshot with this identifier when the DB cluster is deleted"
+}
+
 // Optional variables :
 
 variable "custom_identifier" {
