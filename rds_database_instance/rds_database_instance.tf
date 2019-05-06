@@ -36,7 +36,7 @@ resource "aws_db_instance" "rds_db_instance" {
   instance_class                      = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
   storage_type                        = "${lookup(var.optional_parameters, "storage_type", "aurora")}"
   skip_final_snapshot                 = "${lookup(var.optional_parameters, "skip_final_snapshot", true)}"
-  copy_tags_to_snapshot               = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", false)}"
+  copy_tags_to_snapshot               = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", true)}"
   name                                = "${lookup(var.optional_parameters, "database_name", "")}"
   multi_az                            = "${lookup(var.optional_parameters, "multi_az", false)}"
   backup_retention_period             = "${lookup(var.optional_parameters, "backup_retention_period", 14)}"

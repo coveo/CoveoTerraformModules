@@ -67,7 +67,7 @@ resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   promotion_tier               = "${lookup(var.optional_parameters, "promotion_tier", 0)}"
   auto_minor_version_upgrade   = "${lookup(var.optional_parameters, "auto_minor_version_upgrade", true)}"
   performance_insights_enabled = "${lookup(var.optional_parameters, "performance_insights_enabled", false)}"
-  copy_tags_to_snapshot        = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", false)}"
+  copy_tags_to_snapshot        = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", true)}"
 
   tags = "${var.db_tags}"
 }
