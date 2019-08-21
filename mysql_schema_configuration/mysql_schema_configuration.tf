@@ -3,8 +3,9 @@
  */
 
 resource "mysql_database" "schema" {
-  name              = "${var.schema_name}"
-  default_collation = "utf8_bin"
+  name                  = "${var.schema_name}"
+  default_character_set = "${lookup(var.optional_parameters, "default_character_set", "utf8")}"
+  default_collation     = "${lookup(var.optional_parameters, "default_collation", "utf8_bin")}"
 }
 
 resource "mysql_user" "user" {
