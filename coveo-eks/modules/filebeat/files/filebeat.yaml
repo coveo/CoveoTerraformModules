@@ -1,0 +1,60 @@
+#========================= Filebeat global options ============================
+name: "$${NODE_NAME}"
+queue:
+  mem:
+    events: "${queue_mem_maxevents}"
+    flush:
+      min_events: "${queue_mem_flush_min_events}"
+      timeout: "${queue_mem_flush_timeout}"
+filebeat:
+  config:
+    inputs:
+      enabled: "${inputs_enabled}"
+      path: $${path.home}/config/inputs.d/*.yml
+      reload:
+        enabled: "${inputs_enabled}"
+        period: "${inputs_reload_period}"
+  shutdown_timeout: "${shutdown_timeout}"
+
+#================================= Paths ======================================
+path:
+  home: /usr/share/filebeat/
+  config: /usr/share/filebeat/config
+
+#================================ Logging ======================================
+logging:
+  level: info
+  to_files: false
+
+#================================ Processors ==================================
+processors:
+- add_cloud_metadata: ~
+#============================== Xpack Monitoring ==============================
+xpack:
+  monitoring:
+    enabled: "${xpack_monitoring_enabled}"
+    elasticsearch:
+      hosts: ["${elasticsearch_cluster_url}"]
+      compression_level: 0
+      protocol: "https"
+      username: "${user}"
+      password: "${password}"
+      max_retries: "${xpack_monitoring_max_retries}"
+      bulk_max_size: "${xpack_monitoring_bulk_max_size}"
+      timeout: "${xpack_monitoring_timeout}"
+      ssl:
+        enabled: "${xpack_monitoring_ssl}"
+        verification_mode: none
+#================================ HTTP Endpoint ===============================
+http:
+  enabled: true
+  host: 0.0.0.0
+  port: "${http_port}"
+
+#================================ Outputs ======================================
+output:
+  redis:
+    hosts: ["${redis_logs_endpoint}"]
+    key: "filebeat"
+    max_retries: 0
+    timeout: 5
