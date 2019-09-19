@@ -1,0 +1,14 @@
+# config file version
+apiVersion: 1
+# list of datasources to insert/update depending
+datasources:
+  - name: "camptocamp-prometheus-alertmanager-datasource"
+    type: "camptocamp-prometheus-alertmanager-datasource"
+    url: "http://alertmanager.monitoring:9093"
+    access: proxy
+    basicAuth: false
+    jsonData:
+      severity_critical: "disaster"
+      severity_high: "high"
+      severity_info: "information"
+      severity_warning: "warning"

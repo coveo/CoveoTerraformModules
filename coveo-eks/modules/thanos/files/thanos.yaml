@@ -1,0 +1,4 @@
+type: s3
+config:
+  bucket: "${bucket_name}"
+  endpoint: "%{ if region == "us-east-1" }s3.amazonaws.com%{ else }s3.${region}.amazonaws.com%{ endif }"
