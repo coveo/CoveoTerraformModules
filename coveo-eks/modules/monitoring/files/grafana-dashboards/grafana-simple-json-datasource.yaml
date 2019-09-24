@@ -1,9 +1,0 @@
-# config file version
-apiVersion: 1
-# list of datasources to insert/update depending
-datasources:
-  - name: "grafana-simple-json-datasource"
-    type: "grafana-simple-json-datasource"
-    url: "https://deployment-pipeline-api.dev.cloud.coveo.com/grafana/deployments"
-    access: proxy
-    basicAuth: false
