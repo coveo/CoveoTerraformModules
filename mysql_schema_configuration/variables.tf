@@ -21,12 +21,13 @@ variable "optional_parameters" {
 }
 
 variable "optional_ssm_parameter_tags" {
-  type = "map"
+  type        = "map"
   description = "Additional tags to add to the SSM parameter resources"
-  default = {}
+  default     = {}
 }
 
 variable "user_privileges" {
   type    = "list"
-  default = ["EXECUTE", "SELECT", "SHOW VIEW", "ALTER", "ALTER ROUTINE", "CREATE", "CREATE ROUTINE", "CREATE TEMPORARY TABLES", "CREATE VIEW", "DELETE", "DROP", "INDEX", "INSERT", "TRIGGER", "UPDATE"]
+  default = ["EXECUTE", "SELECT", "SHOW VIEW", "ALTER", "ALTER ROUTINE", "CREATE", "CREATE ROUTINE",
+    "CREATE TEMPORARY TABLES", "CREATE VIEW", "DELETE", "DROP", "INDEX", "INSERT", "TRIGGER", "UPDATE"]
 }
