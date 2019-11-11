@@ -48,6 +48,12 @@ variable "optional_ssm_parameter_tags" {
   default     = {}
 }
 
+variable "optional_ssm_parameter_ignore_changes" {
+  type = "list"
+  description = "Additional parameter to ignore in the SSM parameter lifecycle"
+  default = []
+}
+
 variable "availability_zones" {
   type        = "list"
   description = "A list of EC2 Availability Zones that instances in the DB cluster can be created in"
