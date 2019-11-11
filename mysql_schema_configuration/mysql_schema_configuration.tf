@@ -34,6 +34,10 @@ resource "aws_ssm_parameter" "username" {
   key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
 
   tags = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = "${lookup(var.optional_parameters, "ssm_parameter_username_ignore_changes", [])}"
+  }
 }
 
 resource "aws_ssm_parameter" "password" {
@@ -44,4 +48,8 @@ resource "aws_ssm_parameter" "password" {
   key_id = "${var.password_kms_key_id}"
 
   tags = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = "${lookup(var.optional_parameters, "ssm_parameter_password_ignore_changes", [])}"
+  }
 }
