@@ -15,6 +15,10 @@ resource "aws_ssm_parameter" "db_root_master_username" {
   type  = "String"
   value = "${lookup(var.optional_parameters, "master_username", "root")}"
   tags  = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_ssm_parameter" "db_root_master_password" {
@@ -24,6 +28,10 @@ resource "aws_ssm_parameter" "db_root_master_password" {
 
   key_id = "${lookup(var.optional_parameters, "master_password_kms_key_id", "")}"
   tags   = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_rds_cluster" "rds_db_cluster" {
