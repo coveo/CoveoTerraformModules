@@ -37,6 +37,12 @@ variable "db_tags" {
   default     = {}
 }
 
+variable "optional_ssm_parameter_tags" {
+  type        = "map"
+  description = "Additional tags to add to the SSM parameter resources"
+  default     = {}
+}
+
 variable "availability_zones" {
   type        = "list"
   description = "A list of EC2 Availability Zones that instances in the DB cluster can be created in"
