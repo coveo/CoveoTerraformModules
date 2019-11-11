@@ -14,6 +14,7 @@ resource "aws_ssm_parameter" "db_root_username" {
   name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_username_key", "Username")}"
   type  = "String"
   value = "${lookup(var.optional_parameters, "username", "root_db")}"
+  tags  = "${var.optional_ssm_parameter_tags}"
 }
 
 resource "aws_ssm_parameter" "db_root_password" {
@@ -22,6 +23,7 @@ resource "aws_ssm_parameter" "db_root_password" {
   value = "${var.password}"
 
   key_id = "${lookup(var.optional_parameters, "password_kms_key_id", "")}"
+  tags   = "${var.optional_ssm_parameter_tags}"
 }
 
 resource "aws_db_instance" "rds_db_instance" {
