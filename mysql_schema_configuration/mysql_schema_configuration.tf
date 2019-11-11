@@ -32,6 +32,8 @@ resource "aws_ssm_parameter" "username" {
   value = "${mysql_user.user.user}"
 
   key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
+
+  tags = "${var.optional_ssm_parameter_tags}"
 }
 
 resource "aws_ssm_parameter" "password" {
@@ -40,4 +42,6 @@ resource "aws_ssm_parameter" "password" {
   value = "${var.password}"
 
   key_id = "${var.password_kms_key_id}"
+
+  tags = "${var.optional_ssm_parameter_tags}"
 }
