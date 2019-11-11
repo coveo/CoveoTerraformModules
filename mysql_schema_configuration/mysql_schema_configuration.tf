@@ -36,7 +36,7 @@ resource "aws_ssm_parameter" "username" {
   tags = "${var.optional_ssm_parameter_tags}"
 
   lifecycle {
-    ignore_changes = "${lookup(var.optional_ssm_parameter_ignore_changes, "ssm_parameter_password_ignore_changes")}"
+    ignore_changes = ["value"]
   }
 }
 
@@ -50,6 +50,6 @@ resource "aws_ssm_parameter" "password" {
   tags = "${var.optional_ssm_parameter_tags}"
 
   lifecycle {
-    ignore_changes = "${lookup(var.optional_ssm_parameter_ignore_changes, "ssm_parameter_password_ignore_changes")}"
+    ignore_changes = ["value"]
   }
 }

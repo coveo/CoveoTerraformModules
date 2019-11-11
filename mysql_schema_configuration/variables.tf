@@ -26,12 +26,6 @@ variable "optional_ssm_parameter_tags" {
   default     = {}
 }
 
-variable "optional_ssm_parameter_ignore_changes" {
-  type = "list"
-  description = "Additional parameter to ignore in the SSM parameter lifecycle"
-  default = []
-}
-
 variable "user_privileges" {
   type    = "list"
   default = ["EXECUTE", "SELECT", "SHOW VIEW", "ALTER", "ALTER ROUTINE", "CREATE", "CREATE ROUTINE",
