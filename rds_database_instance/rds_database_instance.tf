@@ -72,4 +72,8 @@ resource "aws_db_instance" "rds_db_instance" {
   tags                                = "${var.db_tags}"
   enabled_cloudwatch_logs_exports     = ["${var.enabled_cloudwatch_logs_exports}"]
   deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
+
+  lifecycle {
+    ignore_changes = ["password"]
+  }
 }

@@ -14,6 +14,10 @@ resource "mysql_user" "user" {
   host               = "%"
   plaintext_password = "${var.password}"
   tls_option         = "${lookup(var.optional_parameters, "tls_option", "NONE")}"
+
+  lifecycle {
+    ignore_changes = ["plaintext_password"]
+  }
 }
 
 resource "mysql_grant" "grants" {
