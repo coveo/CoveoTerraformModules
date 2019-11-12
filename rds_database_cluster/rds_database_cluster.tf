@@ -60,6 +60,10 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
 
   tags = "${var.db_tags}"
+
+  lifecycle {
+    ignore_changes = ["master_password"]
+  }
 }
 
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
