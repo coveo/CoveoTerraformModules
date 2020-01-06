@@ -13,12 +13,13 @@ variable "subnet_ids" {
   description = "A list of VPC subnets IDs"
 }
 
-variable "final_snapshot_identifier" {
-  type = "string"
-  description = "Creates a snapshot with this identifier when the DB cluster is deleted"
-}
-
 // Optional variables :
+
+variable "vpc_id" {
+  type = "string"
+  description = "VPC ID"
+  default = ""
+}
 
 variable "instances_count" {
   description = "Number of instances"
@@ -60,6 +61,14 @@ variable "vpc_security_group_ids" {
   default     = []
 }
 
+variable "store_master_creds_to_ssm" {
+  default = true
+}
+
+variable "store_master_creds_to_secretmanager" {
+  default = false
+}
+
 variable "subnet_group_tags" {
   type        = "map"
   description = "A mapping of tags to assign to the resource"
@@ -70,4 +79,36 @@ variable "enabled_cloudwatch_logs_exports" {
   type        = "list"
   description = "A list of logs to export to cloudwatch. Possible values are audit, error, general, slowquery"
   default     = []
+}
+
+variable "iam_roles" {
+  type = "list"
+  default = []
+}
+
+variable "scaling_configuration" {
+  type = "list"
+  default = []
+}
+
+variable "db_parameter_group_name" {
+  type = "string"
+  default = ""
+}
+
+variable "db_cluster_parameter_group_name" {
+  type = "string"
+  default = ""
+}
+
+variable "rds_cluster_db_param_group_params" {
+  type = "list"
+  default = []
+  description = "A list of cluster DB group params."
+}
+
+variable "rds_db_param_group_params" {
+  type = "list"
+  default = []
+  description = "A list of DB group params."
 }
