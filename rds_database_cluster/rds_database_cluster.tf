@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 resource "aws_db_subnet_group" "db_subnet_group" {
@@ -14,6 +14,11 @@ resource "aws_ssm_parameter" "db_root_master_username" {
   name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_username_key", "Username")}"
   type  = "String"
   value = "${lookup(var.optional_parameters, "master_username", "root")}"
+  tags  = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_ssm_parameter" "db_root_master_password" {
@@ -22,6 +27,11 @@ resource "aws_ssm_parameter" "db_root_master_password" {
   value = "${var.master_password}"
 
   key_id = "${lookup(var.optional_parameters, "master_password_kms_key_id", "")}"
+  tags   = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_rds_cluster" "rds_db_cluster" {
@@ -30,6 +40,8 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   master_password = "${aws_ssm_parameter.db_root_master_password.value}"
 
   cluster_identifier                  = "${lookup(var.optional_parameters, "cluster_identifier", "${var.custom_identifier}-cluster")}"
+  engine                              = "${lookup(var.optional_parameters, "engine", "aurora")}"
+  engine_version                      = "${lookup(var.optional_parameters, "engine_version", "aurora5.6")}"
   database_name                       = "${lookup(var.optional_parameters, "database_name", "")}"
   skip_final_snapshot                 = "${lookup(var.optional_parameters, "skip_final_snapshot", true)}"
   availability_zones                  = ["${var.availability_zones}"]
@@ -39,6 +51,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   port                                = "${lookup(var.optional_parameters, "port", 3306)}"
   vpc_security_group_ids              = ["${var.vpc_security_group_ids}"]
   snapshot_identifier                 = "${lookup(var.optional_parameters, "snapshot_identifier", "")}"
+  final_snapshot_identifier           = "${var.final_snapshot_identifier}"
   storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", true)}"
   apply_immediately                   = "${lookup(var.optional_parameters, "apply_immediately", false)}"
   db_subnet_group_name                = "${aws_db_subnet_group.db_subnet_group.name}"
@@ -49,6 +62,10 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
 
   tags = "${var.db_tags}"
+
+  lifecycle {
+    ignore_changes = ["master_password"]
+  }
 }
 
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
@@ -56,6 +73,8 @@ resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
 
   count                        = "${var.instances_count}"
   identifier                   = "${lookup(var.optional_parameters, "cluster_instance_identifier", "${var.custom_identifier}")}-${count.index}"
+  engine                       = "${lookup(var.optional_parameters, "engine", "aurora")}"
+  engine_version               = "${lookup(var.optional_parameters, "engine_version", "aurora5.6")}"
   instance_class               = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
   publicly_accessible          = "${lookup(var.optional_parameters, "publicly_accessible", false)}"
   db_subnet_group_name         = "${aws_db_subnet_group.db_subnet_group.name}"
@@ -66,6 +85,7 @@ resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   promotion_tier               = "${lookup(var.optional_parameters, "promotion_tier", 0)}"
   auto_minor_version_upgrade   = "${lookup(var.optional_parameters, "auto_minor_version_upgrade", true)}"
   performance_insights_enabled = "${lookup(var.optional_parameters, "performance_insights_enabled", false)}"
+  copy_tags_to_snapshot        = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", true)}"
 
   tags = "${var.db_tags}"
 }

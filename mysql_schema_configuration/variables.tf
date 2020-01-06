@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 variable "parameter_store_path" {}
@@ -20,7 +20,14 @@ variable "optional_parameters" {
   default     = {}
 }
 
+variable "optional_ssm_parameter_tags" {
+  type        = "map"
+  description = "Additional tags to add to the SSM parameter resources"
+  default     = {}
+}
+
 variable "user_privileges" {
   type    = "list"
-  default = ["EXECUTE", "SELECT", "SHOW VIEW", "ALTER", "ALTER ROUTINE", "CREATE", "CREATE ROUTINE", "CREATE TEMPORARY TABLES", "CREATE VIEW", "DELETE", "DROP", "INDEX", "INSERT", "TRIGGER", "UPDATE"]
+  default = ["EXECUTE", "SELECT", "SHOW VIEW", "ALTER", "ALTER ROUTINE", "CREATE", "CREATE ROUTINE",
+    "CREATE TEMPORARY TABLES", "CREATE VIEW", "DELETE", "DROP", "INDEX", "INSERT", "TRIGGER", "UPDATE"]
 }

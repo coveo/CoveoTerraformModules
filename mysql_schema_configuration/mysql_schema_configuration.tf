@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 resource "mysql_database" "schema" {
-  name              = "${var.schema_name}"
-  default_collation = "utf8_bin"
+  name                  = "${var.schema_name}"
+  default_character_set = "${lookup(var.optional_parameters, "default_character_set", "utf8")}"
+  default_collation     = "${lookup(var.optional_parameters, "default_collation", "utf8_bin")}"
 }
 
 resource "mysql_user" "user" {
@@ -12,7 +13,11 @@ resource "mysql_user" "user" {
 
   host               = "%"
   plaintext_password = "${var.password}"
-  tls_option         = "${lookup(var.optional_parameters, "tls_option", "")}"
+  tls_option         = "${lookup(var.optional_parameters, "tls_option", "NONE")}"
+
+  lifecycle {
+    ignore_changes = ["plaintext_password"]
+  }
 }
 
 resource "mysql_grant" "grants" {
@@ -21,8 +26,8 @@ resource "mysql_grant" "grants" {
   user       = "${mysql_user.user.user}"
   host       = "${mysql_user.user.host}"
   privileges = "${var.user_privileges}"
-  table      = "${lookup(var.optional_parameters, "grants_table", "")}"
-  tls_option = "${lookup(var.optional_parameters, "tls_option", "")}"
+  table      = "${lookup(var.optional_parameters, "grants_table", "*")}"
+  tls_option = "${lookup(var.optional_parameters, "tls_option", "NONE")}"
 }
 
 resource "aws_ssm_parameter" "username" {
@@ -31,6 +36,12 @@ resource "aws_ssm_parameter" "username" {
   value = "${mysql_user.user.user}"
 
   key_id = "${lookup(var.optional_parameters, "username_kms_key_id", "")}"
+
+  tags = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_ssm_parameter" "password" {
@@ -39,4 +50,10 @@ resource "aws_ssm_parameter" "password" {
   value = "${var.password}"
 
   key_id = "${var.password_kms_key_id}"
+
+  tags = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }

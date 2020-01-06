@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 resource "aws_db_subnet_group" "db_subnet_group" {
@@ -14,6 +14,11 @@ resource "aws_ssm_parameter" "db_root_username" {
   name  = "${lookup(var.optional_parameters, "parameter_store_path", "${var.custom_identifier}")}/${lookup(var.optional_parameters, "parameter_store_username_key", "Username")}"
   type  = "String"
   value = "${lookup(var.optional_parameters, "username", "root_db")}"
+  tags  = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_ssm_parameter" "db_root_password" {
@@ -22,6 +27,11 @@ resource "aws_ssm_parameter" "db_root_password" {
   value = "${var.password}"
 
   key_id = "${lookup(var.optional_parameters, "password_kms_key_id", "")}"
+  tags   = "${var.optional_ssm_parameter_tags}"
+
+  lifecycle {
+    ignore_changes = ["value"]
+  }
 }
 
 resource "aws_db_instance" "rds_db_instance" {
@@ -36,7 +46,7 @@ resource "aws_db_instance" "rds_db_instance" {
   instance_class                      = "${lookup(var.optional_parameters, "instance_class", "db.r3.large")}"
   storage_type                        = "${lookup(var.optional_parameters, "storage_type", "aurora")}"
   skip_final_snapshot                 = "${lookup(var.optional_parameters, "skip_final_snapshot", true)}"
-  copy_tags_to_snapshot               = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", "false")}"
+  copy_tags_to_snapshot               = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", true)}"
   name                                = "${lookup(var.optional_parameters, "database_name", "")}"
   multi_az                            = "${lookup(var.optional_parameters, "multi_az", false)}"
   backup_retention_period             = "${lookup(var.optional_parameters, "backup_retention_period", 14)}"
@@ -51,6 +61,7 @@ resource "aws_db_instance" "rds_db_instance" {
   storage_encrypted                   = "${lookup(var.optional_parameters, "storage_encrypted", true)}"
   apply_immediately                   = "${lookup(var.optional_parameters, "apply_immediately", false)}"
   snapshot_identifier                 = "${lookup(var.optional_parameters, "snapshot_identifier", "")}"
+  final_snapshot_identifier           = "${var.final_snapshot_identifier}"
   license_model                       = "${lookup(var.optional_parameters, "license_model", "")}"
   auto_minor_version_upgrade          = "${lookup(var.optional_parameters, "auto_minor_version_upgrade", true)}"
   allow_major_version_upgrade         = "${lookup(var.optional_parameters, "allow_major_version_upgrade", false)}"
@@ -61,4 +72,8 @@ resource "aws_db_instance" "rds_db_instance" {
   tags                                = "${var.db_tags}"
   enabled_cloudwatch_logs_exports     = ["${var.enabled_cloudwatch_logs_exports}"]
   deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
+
+  lifecycle {
+    ignore_changes = ["password"]
+  }
 }

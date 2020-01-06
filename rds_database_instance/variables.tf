@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2017, Coveo Solutions Inc.
+ * Copyright (c) 2011 - 2019, Coveo Solutions Inc.
  */
 
 // Required variables :
@@ -11,6 +11,11 @@ variable "password" {
 variable "subnet_ids" {
   type        = "list"
   description = "A list of VPC subnets IDs"
+}
+
+variable "final_snapshot_identifier" {
+  type = "string"
+  description = "Creates a snapshot with this identifier when the DB cluster is deleted"
 }
 
 // Optional variables :
@@ -29,6 +34,12 @@ variable "optional_parameters" {
 variable "db_tags" {
   type        = "map"
   description = "Tags to attach to the database instance"
+  default     = {}
+}
+
+variable "optional_ssm_parameter_tags" {
+  type        = "map"
+  description = "Additional tags to add to the SSM parameter resources"
   default     = {}
 }
 

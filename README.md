@@ -19,6 +19,17 @@ This module creates a [RDS Cluster Resource](https://www.terraform.io/docs/provi
 
 This module creates a [RDS Instance Resource](https://www.terraform.io/docs/providers/aws/r/db_instance.html) with a [RDS DB subnet group ressource](https://www.terraform.io/docs/providers/aws/r/db_subnet_group.html). It also store the database username and password into the parameter store by creating two [SSM Parameter resource](https://www.terraform.io/docs/providers/aws/r/ssm_parameter.html). You have to provide it with minimally a list of subnet_ids, the master password and a custom_identifier. This module outputs the connection endpoint, the master username, the master password and the port used by the database.
 
+### coveo-eks
+
+This module deploy an EKS cluster with all requirements embedded. It include :
+
+* Kiam
+* ExternalDNS
+* ClusterAutoscaler
+* Iam Authenticator operator
+* Filebeat
+* Thanos
+
 ## Usage
 
 You can simply import the module you want to use in your terraform infrastructure directly from our github. We recommend using a tag to specify the version of the module you want to use. It will ensure your infrastructure won't stop working when a module is updated. The following example is how you would import the version 0.7 of the rds_database_cluster module in your terraform file.
