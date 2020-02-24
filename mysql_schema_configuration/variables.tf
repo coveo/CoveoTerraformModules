@@ -6,10 +6,6 @@ variable "parameter_store_path" {}
 
 variable "schema_name" {}
 
-variable "username" {}
-
-variable "password" {}
-
 variable "password_kms_key_id" {
   default = ""
 }

@@ -11,6 +11,11 @@ Table of content:
 
 This repository is a selection of Terraform modules we used at Coveo. We now support the following modules :
 
+### mysql_schema_configuration
+
+This module is not deprecated. It is only available for backward compatibility.
+
+
 ### rds_database_cluster
 
 This module creates a [RDS Cluster Resource](https://www.terraform.io/docs/providers/aws/r/rds_cluster.html), his [RDS Cluster Resource Instance](https://www.terraform.io/docs/providers/aws/r/rds_cluster_instance.html) and a [RDS DB subnet group ressource](https://www.terraform.io/docs/providers/aws/r/db_subnet_group.html). It also store the database username and password into the parameter store by creating two [SSM Parameter resource](https://www.terraform.io/docs/providers/aws/r/ssm_parameter.html). You have to provide it with minimally a list of subnet_ids, the database master password and a custom_identifier. This module outputs the cluster endpoint which is the DNS address of the RDS instance, the master username, the master password and the port used by the database.
