@@ -13,7 +13,7 @@ This repository is a selection of Terraform modules we used at Coveo. We now sup
 
 ### mysql_schema_configuration
 
-This module is not deprecated. It is only available for backward compatibility.
+This module is now deprecated. It is only available for backward compatibility.
 
 ### rds_database_cluster
 
