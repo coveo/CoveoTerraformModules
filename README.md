@@ -1,4 +1,8 @@
-# Coveo Terraform modules
+# This repository is no longer maintained.
+Issue reports and pull requests will not be attended.
+It has been transfered to a private bitbucket with other shared Terraform modules.
+
+## Coveo Terraform modules
 
 A collection of Terraform modules.
 
