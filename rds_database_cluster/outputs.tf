@@ -20,6 +20,6 @@ output "port" {
   value = "${aws_rds_cluster.rds_db_cluster.port}"
 }
 
-output "cluster_id" {
-  value = "${aws_rds_cluster.rds_db_cluster.id}"
+output "cluster_arn" {
+  value = "${aws_rds_cluster.rds_db_cluster.arn}"
 }
