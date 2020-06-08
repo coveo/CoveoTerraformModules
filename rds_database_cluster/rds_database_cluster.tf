@@ -36,10 +36,6 @@ resource "aws_ssm_parameter" "db_root_master_password" {
 
 resource "aws_rds_cluster" "rds_db_cluster" {
   // Note: username length must be between 2 and 16 character or AWS return an error
-  #! @-if (region == default_region)
-  master_username = "${aws_ssm_parameter.db_root_master_username.value}"
-  master_password = "${aws_ssm_parameter.db_root_master_password.value}"
-  #! @-endif
 
   cluster_identifier                  = "${lookup(var.optional_parameters, "cluster_identifier", "${var.custom_identifier}-cluster")}"
   global_cluster_identifier           = "${lookup(var.optional_parameters, "global_cluster_identifier", "")}"
@@ -66,10 +62,6 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   deletion_protection                 = "${lookup(var.optional_parameters, "deletion_protection", false)}"
 
   tags = "${var.db_tags}"
-
-  lifecycle {
-    ignore_changes = ["master_password"]
-  }
 }
 
 resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
