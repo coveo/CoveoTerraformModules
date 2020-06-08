@@ -40,7 +40,9 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   master_password = "${aws_ssm_parameter.db_root_master_password.value}"
 
   cluster_identifier                  = "${lookup(var.optional_parameters, "cluster_identifier", "${var.custom_identifier}-cluster")}"
+  global_cluster_identifier           = "${lookup(var.optional_parameters, "global_cluster_identifier", "")}"
   engine                              = "${lookup(var.optional_parameters, "engine", "aurora")}"
+  engine_mode                         = "${lookup(var.optional_parameters, "engine_mode", "provisioned")}"
   engine_version                      = "${lookup(var.optional_parameters, "engine_version", "aurora5.6")}"
   database_name                       = "${lookup(var.optional_parameters, "database_name", "")}"
   skip_final_snapshot                 = "${lookup(var.optional_parameters, "skip_final_snapshot", true)}"
