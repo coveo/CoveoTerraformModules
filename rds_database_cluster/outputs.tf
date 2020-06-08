@@ -7,12 +7,10 @@ output "endpoint" {
 }
 
 output "username" {
-  sensitive = true
   value     = "${aws_rds_cluster.rds_db_cluster.master_username}"
 }
 
 output "password" {
-  sensitive = true
   value     = "${aws_rds_cluster.rds_db_cluster.master_password}"
 }
 
