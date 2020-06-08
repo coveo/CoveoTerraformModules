@@ -7,11 +7,13 @@ output "endpoint" {
 }
 
 output "username" {
-  value     = "${aws_rds_cluster.rds_db_cluster.master_username}"
+  sensitive = true
+  value     = "${aws_ssm_parameter.db_root_master_username.value}"
 }
 
 output "password" {
-  value     = "${aws_rds_cluster.rds_db_cluster.master_password}"
+  sensitive = true
+  value     = "${aws_ssm_parameter.db_root_master_password.value}"
 }
 
 output "port" {
