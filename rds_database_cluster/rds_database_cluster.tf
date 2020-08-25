@@ -65,6 +65,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
 
   lifecycle {
     ignore_changes = ["master_password"]
+    prevent_destroy = true
   }
 }
 
