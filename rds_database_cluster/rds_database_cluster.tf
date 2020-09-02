@@ -88,4 +88,8 @@ resource "aws_rds_cluster_instance" "rds_db_cluster_instance" {
   copy_tags_to_snapshot        = "${lookup(var.optional_parameters, "copy_tags_to_snapshot", true)}"
 
   tags = "${var.db_tags}"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

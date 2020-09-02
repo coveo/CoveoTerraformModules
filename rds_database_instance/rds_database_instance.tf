@@ -75,5 +75,6 @@ resource "aws_db_instance" "rds_db_instance" {
 
   lifecycle {
     ignore_changes = ["password"]
+    prevent_destroy = true
   }
 }
