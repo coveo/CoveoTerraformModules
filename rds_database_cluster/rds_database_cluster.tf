@@ -64,7 +64,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   tags = var.db_tags
 
   lifecycle {
-    ignore_changes = ["master_password"]
+    ignore_changes = [master_password]
   }
 }
 
