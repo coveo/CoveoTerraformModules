@@ -3,19 +3,19 @@
  */
 
 output "endpoint" {
-  value = "${aws_rds_cluster.rds_db_cluster.endpoint}"
+  value = aws_rds_cluster.rds_db_cluster.endpoint
 }
 
 output "username" {
   sensitive = true
-  value     = "${aws_rds_cluster.rds_db_cluster.master_username}"
+  value     = aws_rds_cluster.rds_db_cluster.master_username
 }
 
 output "password" {
   sensitive = true
-  value     = "${aws_rds_cluster.rds_db_cluster.master_password}"
+  value     = aws_rds_cluster.rds_db_cluster.master_password
 }
 
 output "port" {
-  value = "${aws_rds_cluster.rds_db_cluster.port}"
+  value = aws_rds_cluster.rds_db_cluster.port
 }
