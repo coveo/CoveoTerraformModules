@@ -17,7 +17,7 @@ resource "aws_ssm_parameter" "db_root_master_username" {
   tags  = var.optional_ssm_parameter_tags
 
   lifecycle {
-    ignore_changes = ["value"]
+    ignore_changes = [value]
   }
 }
 
@@ -30,7 +30,7 @@ resource "aws_ssm_parameter" "db_root_master_password" {
   tags   = var.optional_ssm_parameter_tags
 
   lifecycle {
-    ignore_changes = ["value"]
+    ignore_changes = [value]
   }
 }
 

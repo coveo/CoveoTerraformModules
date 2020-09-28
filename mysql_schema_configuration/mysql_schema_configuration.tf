@@ -18,7 +18,7 @@ resource "aws_ssm_parameter" "username" {
   tags = var.optional_ssm_parameter_tags
 
   lifecycle {
-    ignore_changes = ["value"]
+    ignore_changes = [value]
   }
 }
 
@@ -32,6 +32,6 @@ resource "aws_ssm_parameter" "password" {
   tags = var.optional_ssm_parameter_tags
 
   lifecycle {
-    ignore_changes = ["value"]
+    ignore_changes = [value]
   }
 }
