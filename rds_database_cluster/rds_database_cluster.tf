@@ -44,12 +44,12 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   engine_version                      = lookup(var.optional_parameters, "engine_version", "aurora5.6")
   database_name                       = lookup(var.optional_parameters, "database_name", "")
   skip_final_snapshot                 = lookup(var.optional_parameters, "skip_final_snapshot", true)
-  availability_zones                  = [var.availability_zones]
+  availability_zones                  = var.availability_zones
   backup_retention_period             = lookup(var.optional_parameters, "backup_retention_period", 14)
   preferred_backup_window             = lookup(var.optional_parameters, "preferred_backup_window", "")
   preferred_maintenance_window        = lookup(var.optional_parameters, "preferred_maintenance_window", "")
   port                                = lookup(var.optional_parameters, "port", 3306)
-  vpc_security_group_ids              = [var.vpc_security_group_ids]
+  vpc_security_group_ids              = var.vpc_security_group_ids
   snapshot_identifier                 = lookup(var.optional_parameters, "snapshot_identifier", "")
   final_snapshot_identifier           = var.final_snapshot_identifier
   storage_encrypted                   = lookup(var.optional_parameters, "storage_encrypted", true)
@@ -58,7 +58,7 @@ resource "aws_rds_cluster" "rds_db_cluster" {
   db_cluster_parameter_group_name     = lookup(var.optional_parameters, "db_cluster_parameter_group_name", "")
   kms_key_id                          = lookup(var.optional_parameters, "kms_key_id", "")
   iam_database_authentication_enabled = lookup(var.optional_parameters, "iam_database_authentication_enabled", false)
-  enabled_cloudwatch_logs_exports     = [var.enabled_cloudwatch_logs_exports]
+  enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
   deletion_protection                 = lookup(var.optional_parameters, "deletion_protection", false)
 
   tags = var.db_tags
