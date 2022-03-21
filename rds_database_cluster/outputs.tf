@@ -6,6 +6,10 @@ output "endpoint" {
   value = "${aws_rds_cluster.rds_db_cluster.endpoint}"
 }
 
+output "reader_endpoint" {
+  value = "${aws_rds_cluster.rds_db_cluster.reader_endpoint}"
+}
+
 output "username" {
   sensitive = true
   value     = "${aws_rds_cluster.rds_db_cluster.master_username}"
