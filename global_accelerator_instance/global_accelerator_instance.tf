@@ -7,7 +7,7 @@ resource "aws_globalaccelerator_accelerator" "global_accelerator" {
     ip_address_type = "IPV4"
 
     tags = {
-        regions_covered = join(" ", keys(var.endpoint_group_map))
+        regions_covered = join(",", keys(var.endpoint_group_map))
     }
  }
 
